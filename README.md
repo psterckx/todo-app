@@ -1,11 +1,24 @@
-# app
+# Todo App
+## For the *Create a full-stack app with AWS* workshop at CUhackit 2022
+
+## About
+
+This project contains a simple todo app built with [VueJS](https://vuejs.org/).
+
+The get tasks and complete/uncomplete tasks features are already built. Here are some other features that you could build!
+* Create a task
+* Update the name of a task
+* Delete a task
+* Order tasks (by name, by created date, by whether the task is complete or not)
+* Better error handling with snack bars
+* Dark mode
 
 ## Project setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Serve locally
 ```
 npm run serve
 ```
@@ -14,11 +27,3 @@ npm run serve
 ```
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

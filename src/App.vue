@@ -1,6 +1,6 @@
 <template>
-  <div id="app" class="mx-72 my-12">
-    <div class=" mb-6 flex items-center">
+  <div id="app" class="ml-72 my-12">
+    <div class="mb-6 flex items-center">
       <h1 class="text-xl mr-8">My Tasks</h1>
       <div v-if="isError">&#129301; Something's not right...</div>
     </div>
@@ -11,7 +11,7 @@
         :id="task.id"
         :name="task.name"
         :isComplete="task.isComplete"
-        @toggleCompleteTask="toggleCompleteTask($event)"
+        @updateTask="updateTask($event)"
       />
     </template>
   </div>
@@ -20,6 +20,9 @@
 <script>
 import Task from "./components/Task.vue";
 import axios from "axios";
+
+// put your url from API Gateway here
+const url = "";
 
 export default {
   name: "App",
@@ -38,9 +41,7 @@ export default {
   methods: {
     async getTasks() {
       try {
-        const response = await axios.get(
-          "https://10hivotppf.execute-api.us-east-1.amazonaws.com/dev"
-        );
+        const response = await axios.get(url);
         this.tasks = response.data.todos;
       } catch (error) {
         console.log(error);
@@ -48,25 +49,13 @@ export default {
         this.tasks = [];
       }
     },
-    async updateTask(task) {
-      const response = await axios.post(
-        "https://10hivotppf.execute-api.us-east-1.amazonaws.com/dev",
-        task
-      );
-      this.tasks = this.tasks.map((task) => {
-        if (task.id === response.data.id) {
-          return response.data;
-        } else {
-          return task;
-        }
-      });
-    },
-    async toggleCompleteTask(taskId) {
+    async updateTask(taskId) {
       const taskToUpdate = this.tasks.find((task) => task.id === taskId);
       taskToUpdate.isComplete = !taskToUpdate.isComplete;
       try {
-        await this.updateTask(taskToUpdate);
+        await axios.post(url, taskToUpdate);
       } catch (error) {
+        console.log(error);
         this.isError = true;
         taskToUpdate.isComplete = !taskToUpdate.isComplete;
       }
