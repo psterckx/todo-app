@@ -42,7 +42,7 @@ export default {
     async getTasks() {
       try {
         const response = await axios.get(url);
-        this.tasks = response.data.todos;
+        this.tasks = response.data.tasks;
       } catch (error) {
         console.log(error);
         this.isError = true;
