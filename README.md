@@ -43,20 +43,16 @@ npm run build
 
 ```json
 {
-	"Version": "2012-10-17",
-	"Statement": [
-		{
-			"Sid": "Statement1",
-			"Principal": "*",
-			"Effect": "Allow",
-			"Action": [
-				"s3:GetObject"
-			],
-			"Resource": [
-				"YOUR_BUCKET_ARN_HERE/*"
-			]
-		}
-	]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Statement1",
+      "Principal": "*",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject"],
+      "Resource": ["YOUR_BUCKET_ARN_HERE/*"]
+    }
+  ]
 }
 ```
 
@@ -64,19 +60,20 @@ npm run build
 
 ```js
 const aws = require("aws-sdk");
-aws.config.update({region: "us-east-1"});
+aws.config.update({ region: "us-east-1" });
 
 const documentClient = new aws.DynamoDB.DocumentClient();
 
+// scan is not efficient for large datasets, read the DynamoDB documentation to learn more
 async function getTasks() {
-    const tasks = await documentClient.scan({TableName: 'tasks'}).promise();
-    return {
-        statusCode: 200,
-        body: JSON.stringify({tasks: tasks.Items})
-    }
+  const tasks = await documentClient.scan({ TableName: "tasks" }).promise();
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ tasks: tasks.Items }),
+  };
 }
 
 exports.handler = (event) => {
-    return getTasks();
+  return getTasks();
 };
 ```
