@@ -52,13 +52,14 @@ export default {
     async updateTask(taskId) {
       const taskToUpdate = this.tasks.find((task) => task.id === taskId);
       taskToUpdate.isComplete = !taskToUpdate.isComplete;
-      try {
-        await axios.post(url, taskToUpdate);
-      } catch (error) {
-        console.log(error);
-        this.isError = true;
-        taskToUpdate.isComplete = !taskToUpdate.isComplete;
-      }
+      // Uncomment below to make POST request to update a task
+      // try {
+      //   await axios.post(url, taskToUpdate);
+      // } catch (error) {
+      //   console.log(error);
+      //   this.isError = true;
+      //   taskToUpdate.isComplete = !taskToUpdate.isComplete;
+      // }
     },
   },
 };
