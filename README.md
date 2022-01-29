@@ -64,11 +64,18 @@ aws.config.update({ region: "us-east-1" });
 
 const documentClient = new aws.DynamoDB.DocumentClient();
 
+const headers = {
+  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "OPTIONS,GET",
+};
+
 // scan is not efficient for large datasets, read the DynamoDB documentation to learn more
 async function getTasks() {
   const tasks = await documentClient.scan({ TableName: "tasks" }).promise();
   return {
     statusCode: 200,
+    headers,
     body: JSON.stringify({ tasks: tasks.Items }),
   };
 }
