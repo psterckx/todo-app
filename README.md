@@ -17,7 +17,9 @@ The get tasks and complete/uncomplete tasks features are already built. Here are
 - Better error handling with snack bars
 - Dark mode
 
-## Project setup
+## Frontend
+
+### Set up
 
 ```
 npm install
@@ -29,8 +31,52 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Build
 
 ```
 npm run build
+```
+
+## Backend resources
+
+### Bucket policy for website hosting
+
+```json
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "Statement1",
+			"Principal": "*",
+			"Effect": "Allow",
+			"Action": [
+				"s3:GetObject"
+			],
+			"Resource": [
+				"YOUR_BUCKET_ARN_HERE/*"
+			]
+		}
+	]
+}
+```
+
+### Lambda function for getting tasks
+
+```js
+const aws = require("aws-sdk");
+aws.config.update({region: "us-east-1"});
+
+const documentClient = new aws.DynamoDB.DocumentClient();
+
+async function getTasks() {
+    const tasks = await documentClient.scan({TableName: 'tasks'}).promise();
+    return {
+        statusCode: 200,
+        body: JSON.stringify({tasks: tasks.Items})
+    }
+}
+
+exports.handler = (event) => {
+    return getTasks();
+};
 ```
